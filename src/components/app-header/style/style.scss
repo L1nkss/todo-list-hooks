@@ -1,0 +1,17 @@
+.app-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  
+    &__title {
+      margin: 0;
+      flex-grow: 1;
+      font-size: 40px;
+    }
+  
+    &__task-count {
+      margin: 0;
+      font-size: 19px;
+      color: grey;
+    }
+  }

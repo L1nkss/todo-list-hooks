@@ -1,0 +1,91 @@
+// Общие стили
+ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .empty-todo-list {
+    text-align: center;
+    color: #6c757d;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .button-group {
+    display: inline-flex;
+  
+    .button:not(:last-child) {
+      border-right: none;
+      border-radius: 0;
+    }
+  
+    .button:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+  
+    .button:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+  
+  .button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 4px;
+  
+    // Размер кнопок
+    &--small {
+      padding: 4px 8px;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+  
+    // Модификаторы внешнего вида
+    &--active {
+      color: #fff;
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+    }
+  
+    &--grey {
+      color: #6c757d;
+      border-color: #6c757d;
+  
+      &:hover {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+      }
+    }
+  
+    &--danger {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+  
+    &--success {
+      color: #28a745;
+      border-color: #28a745;
+    }
+  }
+  
+  // Инпут
+  .input {
+    font-size: 16px;
+    font-width: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 6px 12px;
+  }

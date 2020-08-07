@@ -1,45 +1,30 @@
+import { useState } from "react";
 import "./style/style.scss";
 
 interface IAddItemFormProps {
   addItem: (name: string) => void
 }
 
-interface IAddItemFormState {
-  name: string | ""
-}
+const AddItemForm:React.FC<IAddItemFormProps> = (props: IAddItemFormProps) => {
+  const [name, setName] = useState<string>("");
 
-export default class AddItemForm extends React.Component<IAddItemFormProps, IAddItemFormState> {
-  private inputRef: React.RefObject<HTMLInputElement>;
-
-  constructor(props: IAddItemFormProps) {
-    super(props);
-    this.state = {
-      name: "",
-    };
-    this.inputRef = React.createRef();
-    this.handleButtonClick = this.handleButtonClick.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
+  function handleNameChange(evt: React.FormEvent<HTMLInputElement>): void {
+    setName(evt.currentTarget.value);
   }
 
-  handleNameChange(evt: React.FormEvent<HTMLInputElement>) {
-    this.setState({ name: evt.currentTarget.value });
-  }
-
-  handleButtonClick(evt: React.FormEvent): void {
+  function handleButtonClick(evt: React.FormEvent): void {
     evt.preventDefault();
-    const { name } = this.state;
     if (name !== "") {
-      this.props.addItem(name);
-      this.setState({ name: "" });
+      props.addItem(name);
+      setName("");
     }
   }
+  return (
+    <form className="add-item-form" onSubmit={handleButtonClick}>
+      <input onChange={handleNameChange} type="text" placeholder="Что нужно сделать?" className="input" value={name} />
+      <button type="submit" className="button button--grey">Добавить</button>
+    </form>
+  );
+};
 
-  render() {
-    return (
-      <form className="add-item-form" onSubmit={this.handleButtonClick}>
-        <input onChange={this.handleNameChange} type="text" placeholder="Что нужно сделать?" className="input" value={this.state.name} />
-        <button type="submit" className="button button--grey">Добавить</button>
-      </form>
-    );
-  }
-}
+export default AddItemForm;

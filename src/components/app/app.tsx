@@ -2,15 +2,9 @@ import AppHeader from "@components/app-header/app-header";
 import TopPanel from "@components/top-panel/top-panel";
 import TodoList from "@components/todo-list/todo-list";
 import AddItemForm from "@components/add-item-form/add-item-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./style/style.scss";
-
-const mockArray = [
-  {
-    label: "Попить", important: false, done: false, id: 100,
-  },
-];
 
 type TTodos = Array<TTodoItem>;
 
@@ -24,11 +18,15 @@ export type TTodoItem = {
 export type TFilters = "All" | "Active" | "Done";
 
 const App: React.FC = () => {
-  let idCount: number;
-  const [todos, setTodos] = useState<TTodos>(mockArray);
+  const [todos, setTodos] = useState<TTodos>([]);
   const [searchString, setSearchString] = useState<string>("");
   const [activeFilter, setFilter] = useState<TFilters>("All");
-  idCount = 125;
+
+  useEffect(() => {
+    const localTodos = localStorage.getItem("todos");
+
+    setTodos(JSON.parse(localTodos));
+  }, []);
 
   function getFilteredItems(): Array<TTodoItem> {
     const filter: string = activeFilter;
@@ -44,11 +42,10 @@ const App: React.FC = () => {
   }
 
   function addItem(name: string): void {
-    const newID = idCount++;
-    console.log(newID);
     const item = {
-      label: name, important: false, done: false, id: idCount++,
+      label: name, important: false, done: false, id: Date.now(),
     };
+    localStorage.setItem("todos", JSON.stringify([...todos, item]));
     setTodos([...todos, item]);
   }
 
@@ -75,14 +72,20 @@ const App: React.FC = () => {
   function changeItemStatus(type: "important" | "done", id: number): void {
     const idx: number = todos.findIndex((element) => element.id === id);
     const newItem: TTodoItem = { ...todos[idx], [type]: !todos[idx][type] };
+    const newTodos = [...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)];
 
-    setTodos([...todos.slice(0, idx), newItem, ...todos.slice(idx + 1)]);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
+
+    setTodos(newTodos);
   }
 
   function deleteItem(id: number): void {
     const idx: number = todos.findIndex((element) => element.id === id);
+    const newTodo = [...todos.slice(0, idx), ...todos.slice(idx + 1)];
 
-    setTodos([...todos.slice(0, idx), ...todos.slice(idx + 1)]);
+    localStorage.setItem("todos", JSON.stringify(newTodo));
+
+    setTodos(newTodo);
   }
 
   const doneItems: number = todos.filter((element) => element.done).length;

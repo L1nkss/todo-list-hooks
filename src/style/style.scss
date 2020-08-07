@@ -41,6 +41,10 @@ ul {
     font-size: 16px;
     line-height: 1.5;
     border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
   
     // Размер кнопок
     &--small {

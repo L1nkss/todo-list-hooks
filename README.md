@@ -1,6 +1,6 @@
 # Todo list hooks
 
-#### Технологии
+#### Технологии:
 - React
 - Typescript
 - React hooks
